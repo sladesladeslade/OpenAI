@@ -36,19 +36,15 @@ while running:
         target_y -= 5
     if keys[pygame.K_DOWN]:
         target_y += 5
-
     # calculate the new angle of the first arm
     arm1_angle = math.atan2(target_y - arm1_y, target_x - arm1_x)
-
     #calculate the position of the second arm
     arm2_x = arm1_x + arm1_length * math.cos(arm1_angle)
     arm2_y = arm1_y + arm1_length * math.sin(arm1_angle)
-
     #calculate the angle of the second arm
     dx = target_x - arm2_x
     dy = target_y - arm2_y
     arm2_angle = math.atan2(dy, dx)
-
     #calculate the length of the second arm
     arm2_length = math.sqrt(dx*dx + dy*dy)
     arm2_length = min(arm2_length, arm1_length + arm2_length)
