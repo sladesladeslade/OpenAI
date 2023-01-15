@@ -9,13 +9,14 @@ pygame.display.set_caption("Drifting Game")
 # Load car image
 car_img = pygame.image.load("C:\\Users\\spbro\\ChatGPT\\driftingGame\\car.png")
 small_car_img = pygame.transform.scale(car_img, (car_img.get_width() // 2, car_img.get_height() // 2))
+small_car_img = pygame.transform.rotate(small_car_img, 90)
 
 # Set initial car position
 car_x = 400
 car_y = 500
 
 # Set car's turning angle
-car_angle = 0
+car_angle = 90
 
 # Main game loop
 running = True
