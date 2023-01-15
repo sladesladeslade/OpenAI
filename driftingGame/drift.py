@@ -29,17 +29,17 @@ while running:
     # Handle arrow key events
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        car_angle -= 5
-    if keys[pygame.K_RIGHT]:
         car_angle += 5
+    if keys[pygame.K_RIGHT]:
+        car_angle -= 5
     if keys[pygame.K_UP]:
         car_velocity += 0.5
     if keys[pygame.K_DOWN]:
         car_velocity -= 0.5
-        
+
     # Move car based on velocity and angle
-    car_x += car_velocity * math.cos(math.radians(car_angle))
-    car_y += car_velocity * math.sin(math.radians(car_angle))
+    car_x += car_velocity * math.sin(math.radians(car_angle))
+    car_y -= car_velocity * math.cos(math.radians(car_angle))
 
     # Draw car on screen
     screen.fill((0, 0, 0))
