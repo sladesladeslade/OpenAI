@@ -26,7 +26,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Handle arrow key events
+        # Handle arrow key events
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         target_x -= 5
@@ -36,6 +36,15 @@ while running:
         target_y -= 5
     if keys[pygame.K_DOWN]:
         target_y += 5
+        
+    # calculate the new angle of the first arm
+    arm1_angle += math.atan2(target_y - arm1_y, target_x - arm1_x) - arm1_angle
+    arm1_angle = math.pi/2
+    
+    # Calculate position for second joint
+    arm2_x = arm1_x + arm1_length * math.cos(arm1_angle)
+    arm2_y = arm1_y + arm1_length * math.sin(arm1_angle)
+
 
     # Calculate angle for first joint
     dx = target_x - arm1_x
@@ -58,11 +67,12 @@ while running:
     angle2 = max(-math.pi/2, min(angle2, math.pi/2))
     arm2_angle = arm1_angle + angle1 + angle2
 
-        # Draw arm on screen
+    # Draw arm on screen
     screen.fill((0, 0, 0))
     pygame.draw.line(screen, (255, 0, 0), (arm1_x, arm1_y), (arm2_x, arm2_y), 5)
     pygame.draw.line(screen, (255, 0, 0), (arm2_x, arm2_y), (target_x, target_y), 5)
     pygame.draw.circle(screen, (0, 255, 0), (int(arm2_x), int(arm2_y)), 10, 0)
+
     # Draw target
     pygame.draw.circle(screen, (0, 255, 0), (target_x, target_y), 10)
 
