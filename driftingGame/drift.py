@@ -30,11 +30,11 @@ while running:
     if keys[pygame.K_RIGHT]:
         car_angle -= 5
     if keys[pygame.K_UP]:
-        car_x += math.sin(math.radians(car_angle)) * 0.5
-        car_y -= math.cos(math.radians(car_angle)) * 0.5
+        car_x += math.cos(math.radians(car_angle)) * 1
+        car_y += math.sin(math.radians(car_angle)) * 1
     if keys[pygame.K_DOWN]:
-        car_x -= math.sin(math.radians(car_angle)) * 0.5
-        car_y += math.cos(math.radians(car_angle)) * 0.5
+        car_x -= math.cos(math.radians(car_angle)) * 1
+        car_y -= math.sin(math.radians(car_angle)) * 1
 
     # Draw car on screen
     screen.fill((0, 0, 0))
