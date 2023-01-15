@@ -13,9 +13,6 @@ car_img = pygame.image.load("C:\\Users\\spbro\\ChatGPT\\driftingGame\\car.png")
 car_x = 400
 car_y = 500
 
-# Set car velocity (drifting effect)
-car_velocity = 0
-
 # Set car's turning angle
 car_angle = 0
 
@@ -33,13 +30,11 @@ while running:
     if keys[pygame.K_RIGHT]:
         car_angle -= 5
     if keys[pygame.K_UP]:
-        car_velocity += 0.5
+        car_x += math.sin(math.radians(car_angle)) * 0.5
+        car_y -= math.cos(math.radians(car_angle)) * 0.5
     if keys[pygame.K_DOWN]:
-        car_velocity -= 0.5
-
-    # Move car based on velocity and angle
-    car_x += car_velocity * math.sin(math.radians(car_angle))
-    car_y -= car_velocity * math.cos(math.radians(car_angle))
+        car_x -= math.sin(math.radians(car_angle)) * 0.5
+        car_y += math.cos(math.radians(car_angle)) * 0.5
 
     # Draw car on screen
     screen.fill((0, 0, 0))
