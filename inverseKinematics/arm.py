@@ -7,14 +7,13 @@ screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Inverse Kinematics Arm")
 
 # Set arm parameters
-arm_length1 = 100
-arm_length2 = 75
+arm1_length = 100
+arm2_length = 75
 
 # Set initial arm position
-arm_x1 = 400
-arm_y1 = 300
-arm_x2 = arm_x1 + arm_length1
-arm_y2 = arm_y1
+arm1_x = 400
+arm1_y = 300
+arm1_angle = math.pi/2
 
 # Set target position
 target_x = 600
@@ -39,24 +38,31 @@ while running:
         target_y += 5
 
     # Calculate angle for first joint
-    dx = target_x - arm_x1
-    dy = target_y - arm_y1
+    dx = target_x - arm1_x
+    dy = target_y - arm1_y
     angle1 = math.atan2(dy, dx)
 
+    # Constrain angle to be between pi/4 and -pi + pi/4
+    angle1 = max(math.pi/4, min(angle1, math.pi - math.pi/4))
+
     # Calculate position for second joint
-    arm_x2 = arm_x1 + arm_length1 * math.cos(angle1)
-    arm_y2 = arm_y1 + arm_length1 * math.sin(angle1)
+    arm2_x = arm1_x + arm1_length * math.cos(arm1_angle)
+    arm2_y = arm1_y + arm1_length * math.sin(arm1_angle)
 
     # Calculate angle for second joint
-    dx = target_x - arm_x2
-    dy = target_y - arm_y2
+    dx = target_x - arm2_x
+    dy = target_y - arm2_y
     angle2 = math.atan2(dy, dx)
 
-    # Draw arm on screen
-    screen.fill((0, 0, 0))
-    pygame.draw.line(screen, (255, 0, 0), (arm_x1, arm_y1), (arm_x2, arm_y2), 5)
-    pygame.draw.line(screen, (255, 0, 0), (arm_x2, arm_y2), (target_x, target_y), 5)
+    # Constrain angle to be between pi/2 and -pi/2
+    angle2 = max(-math.pi/2, min(angle2, math.pi/2))
+    arm2_angle = arm1_angle + angle1 + angle2
 
+        # Draw arm on screen
+    screen.fill((0, 0, 0))
+    pygame.draw.line(screen, (255, 0, 0), (arm1_x, arm1_y), (arm2_x, arm2_y), 5)
+    pygame.draw.line(screen, (255, 0, 0), (arm2_x, arm2_y), (target_x, target_y), 5)
+    pygame.draw.circle(screen, (0, 255, 0), (int(arm2_x), int(arm2_y)), 10, 0)
     # Draw target
     pygame.draw.circle(screen, (0, 255, 0), (target_x, target_y), 10)
 
