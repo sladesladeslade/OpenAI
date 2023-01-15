@@ -1,5 +1,5 @@
 import pygame
-import os
+import math
 
 # Initialize pygame and create a window
 pygame.init()
@@ -16,6 +16,9 @@ car_y = 500
 # Set car velocity (drifting effect)
 car_velocity = 0
 
+# Set car's turning angle
+car_angle = 0
+
 # Main game loop
 running = True
 while running:
@@ -23,19 +26,25 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Move car based on velocity
-    car_x += car_velocity
-
-    # Check for drifting input
+    # Handle arrow key events
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        car_velocity -= 0.5
+        car_angle -= 5
     if keys[pygame.K_RIGHT]:
+        car_angle += 5
+    if keys[pygame.K_UP]:
         car_velocity += 0.5
+    if keys[pygame.K_DOWN]:
+        car_velocity -= 0.5
+        
+    # Move car based on velocity and angle
+    car_x += car_velocity * math.cos(math.radians(car_angle))
+    car_y += car_velocity * math.sin(math.radians(car_angle))
 
     # Draw car on screen
     screen.fill((0, 0, 0))
-    screen.blit(car_img, (car_x, car_y))
+    rotated_car = pygame.transform.rotate(car_img, car_angle)
+    screen.blit(rotated_car, (car_x, car_y))
 
     # Update display
     pygame.display.update()
